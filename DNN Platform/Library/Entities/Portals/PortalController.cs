@@ -2705,14 +2705,15 @@ namespace DotNetNuke.Entities.Portals
                             DeletePortalFolder(serverPath, portalName);
                         }
                     }
-                    //delete upload directory
-                    Globals.DeleteFolderRecursive(serverPath + "Portals\\" + portal.PortalID);
+
+                    // delete upload directory
+                    DeleteFoldersRecursive(serverPath + "Portals\\" + portal.PortalID, portal.PortalID);
                     if (!string.IsNullOrEmpty(portal.HomeDirectory))
                     {
                         string HomeDirectory = portal.HomeDirectoryMapPath;
                         if (Directory.Exists(HomeDirectory))
                         {
-                            Globals.DeleteFolderRecursive(HomeDirectory);
+                            DeleteFoldersRecursive(HomeDirectory, portal.PortalID);
                         }
                     }
                     //remove database references
@@ -2724,6 +2725,51 @@ namespace DotNetNuke.Entities.Portals
                 message = Localization.GetString("LastPortal");
             }
             return message;
+        }
+
+        /// <summary>Deletes the folder recursive, include the folder itself will be deleted.</summary>
+        /// <param name="strRoot">The root.</param>
+        /// <param name="portalId">The portal identifier.</param>
+        private static void DeleteFoldersRecursive(string strRoot, int portalId)
+        {
+            if (portalId == Null.NullInteger || string.IsNullOrEmpty(strRoot))
+            {
+                return;
+            }
+
+            var folder = FolderManager.Instance.GetFolder(portalId, strRoot.Substring(strRoot.LastIndexOf("\\", StringComparison.Ordinal), strRoot.Length - 1 - strRoot.LastIndexOf("\\", StringComparison.Ordinal)));
+            var folderMapping = FolderMappingController.Instance.GetFolderMapping(folder.FolderMappingID);
+            var folderProvider = FolderProvider.Instance(folderMapping.FolderProviderType);
+            
+            if (!folderProvider.FolderExists(folder.FolderPath, folderMapping))
+            {
+                return;
+            }
+
+            foreach (var strFolder in folderProvider.GetSubFolders(folder.FolderPath, folderMapping))
+            {
+                DeleteFoldersRecursive(strFolder, portalId);
+            }
+
+            foreach (var file in FolderManager.Instance.GetFiles(folder))
+            {
+                try
+                {
+                    FileManager.Instance.DeleteFile(file);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                }
+            }
+            try
+            {
+                folderProvider.DeleteFolder(folder);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
 
         /// <summary>
