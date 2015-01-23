@@ -35,11 +35,9 @@ using DotNetNuke.Services.FileSystem.Internal;
 namespace DotNetNuke.Services.FileSystem
 // ReSharper restore CheckNamespace
 {
-    using System.Net.Cache;
-
     public class StandardFolderProvider : FolderProvider
     {
-    	private static readonly ILog Logger = LoggerSource.Instance.GetLogger(typeof (StandardFolderProvider));
+        private static readonly ILog Logger = LoggerSource.Instance.GetLogger(typeof(StandardFolderProvider));
 
         #region Public Properties
 
@@ -116,9 +114,6 @@ namespace DotNetNuke.Services.FileSystem
 
         public override void DeleteFolder(IFolderInfo folder)
         {
-            Requires.NotNull("folder", folder);
-
-            Globals.DeleteFolderRecursive(folder.PhysicalPath);
         }
 
         public override bool FileExists(IFolderInfo folder, string fileName)
@@ -252,7 +247,7 @@ namespace DotNetNuke.Services.FileSystem
         {
             Requires.NotNull("file", file);
 
-            return Convert.ToInt32((file.LastModificationTime - GetLastModificationTime(file)).TotalSeconds) == 0;                        
+            return Convert.ToInt32((file.LastModificationTime - GetLastModificationTime(file)).TotalSeconds) == 0;
         }
 
         public override void MoveFile(IFileInfo file, IFolderInfo destinationFolder)
@@ -270,7 +265,7 @@ namespace DotNetNuke.Services.FileSystem
 
         public override void MoveFolder(string folderPath, string newFolderPath, FolderMappingInfo folderMapping)
         {
-           // The folder has already been moved in filesystem
+            // The folder has already been moved in filesystem
         }
 
         public override void RenameFile(IFileInfo file, string newFileName)
@@ -323,7 +318,7 @@ namespace DotNetNuke.Services.FileSystem
 
             if (FileWrapper.Instance.Exists(actualPath))
             {
-				FileWrapper.Instance.SetAttributes(actualPath, FileAttributes.Normal);
+                FileWrapper.Instance.SetAttributes(actualPath, FileAttributes.Normal);
                 FileWrapper.Instance.Delete(actualPath);
             }
 
