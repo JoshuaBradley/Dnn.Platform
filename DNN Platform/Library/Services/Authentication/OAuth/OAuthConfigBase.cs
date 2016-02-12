@@ -43,7 +43,7 @@ namespace DotNetNuke.Services.Authentication.OAuth
         {
             Service = service;
 
-            HostConfig = PortalController.GetPortalSettingAsBoolean(Service + "_HostConfig", portalId, false);
+            HostConfig = HostController.Instance.GetBoolean(Service + "_HostConfig", false);
 
             if (HostConfig)
             {
@@ -67,7 +67,7 @@ namespace DotNetNuke.Services.Authentication.OAuth
 
         public bool Enabled { get; set; }
 
-        private bool HostConfig { get; set; }
+        public bool HostConfig { get; set; }
 
         private static string GetCacheKey(string service, int portalId)
         {
@@ -91,22 +91,10 @@ namespace DotNetNuke.Services.Authentication.OAuth
             return config;
         }
 
-        public static void SwitchToHostConfig(string service, int portalId, bool enabled)
-        {
-            if (enabled)
-            {
-                PortalController.UpdatePortalSetting(portalId, service + "_HostConfig", true.ToString());
-            }
-            else
-            {
-                PortalController.DeletePortalSetting(portalId, service + "_HostConfig");
-            }
-
-            ClearConfig(service, portalId); 
-        }
-
         public static void UpdateConfig(OAuthConfigBase config)
         {
+            HostController.Instance.Update(config.Service + "_HostConfig", config.HostConfig.ToString(CultureInfo.InvariantCulture));
+
             if (config.HostConfig)
             {
                 HostController.Instance.Update(config.Service + "_APIKey", config.APIKey, true);
