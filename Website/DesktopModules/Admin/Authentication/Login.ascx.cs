@@ -72,7 +72,7 @@ namespace DotNetNuke.Modules.Admin.Authentication
         private static readonly Regex UserLanguageRegex = new Regex("(.*)(&|\\?)(language=)([^&\\?]+)(.*)",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        #region Private Members
+		#region Private Members
 
 		private readonly List<AuthenticationLoginBase> _loginControls = new List<AuthenticationLoginBase>();
         private readonly  List<AuthenticationLoginBase> _defaultauthLogin = new List<AuthenticationLoginBase>();
@@ -178,7 +178,7 @@ namespace DotNetNuke.Modules.Admin.Authentication
 
                     //clean the return url to avoid possible XSS attack.
                     redirectURL = UrlUtils.ValidReturnUrl(redirectURL);
-                }
+					}
                 if (Request.Cookies["returnurl"] != null)
                 {
                     //return to the url passed to signin
@@ -186,7 +186,7 @@ namespace DotNetNuke.Modules.Admin.Authentication
 
                     //clean the return url to avoid possible XSS attack.
                     redirectURL = UrlUtils.ValidReturnUrl(redirectURL);
-                }
+                    }
                 if (Request.Params["appctx"] != null)
 				{
 					//HACK return to the url passed to signin (LiveID) 
@@ -194,7 +194,7 @@ namespace DotNetNuke.Modules.Admin.Authentication
 
                     //clean the return url to avoid possible XSS attack.
                     redirectURL = UrlUtils.ValidReturnUrl(redirectURL);
-                }
+					}
                 if (String.IsNullOrEmpty(redirectURL) || redirectURL=="/")
 				{
                     if (Convert.ToInt32(setting) != Null.NullInteger)
