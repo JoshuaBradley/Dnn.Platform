@@ -24,8 +24,9 @@
 using System;
 using System.Globalization;
 
-using DotNetNuke.Entities.Portals;
 using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Controllers;
+using DotNetNuke.Entities.Portals;
 
 namespace DotNetNuke.Services.Authentication.OAuth
 {
@@ -41,7 +42,7 @@ namespace DotNetNuke.Services.Authentication.OAuth
             : base(portalId)
         {
             Service = service;
-
+            
             var portalApiKey = PortalController.GetPortalSetting(this.Service + "_APIKey", portalId, "");
             var hostApiKey = "";
 

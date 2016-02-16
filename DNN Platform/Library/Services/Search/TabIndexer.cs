@@ -110,7 +110,7 @@ namespace DotNetNuke.Services.Search
                 TabId = tab.TabID,
                 PortalId = tab.PortalID,
                 CultureCode = tab.CultureCode,
-                ModifiedTimeUtc = tab.LastModifiedOnDate.ToUniversalTime(),
+                ModifiedTimeUtc = tab.LastModifiedOnDate,
                 Body = string.Empty,
                 Description = tab.Description
             };
