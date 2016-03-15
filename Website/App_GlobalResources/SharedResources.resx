@@ -1948,6 +1948,9 @@ the modified URL.</value>
   <data name="NoRecords.Text" xml:space="preserve">
     <value>No records to display</value>
   </data>
+  <data name="ModuleAddedToMultiplePages.Text" xml:space="preserve">
+    <value>This module has been added to other pages.  Changes you make here will apply also to those pages.</value>
+  </data>
   <data name="OAuthConfigBase_HostConfig.Help" xml:space="preserve">
     <value>Check this box to store this configuration at the host level so all portals will share configuration information for this authentication provider.</value>
   </data>
